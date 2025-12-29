@@ -19,7 +19,7 @@ public class UserResponse {
         return email;
     }
 
-    public UserResponse from(User user) {
+    public static UserResponse from(User user) {
         return new UserResponse(user.getUsername(),  user.getEmail());
     }
 }

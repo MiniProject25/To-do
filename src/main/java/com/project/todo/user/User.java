@@ -1,16 +1,21 @@
 package com.project.todo.user;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.jspecify.annotations.Nullable;
 
 import java.util.UUID;
 
 @Entity
+@Table(name="Users")
 public class User {
     @Id
+    @GeneratedValue
     private UUID userId;
 
     @NotBlank(message = "Username is required")
@@ -32,6 +37,10 @@ public class User {
     }
 
     // getters
+    public UUID getUserId() {
+        return userId;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -40,7 +49,15 @@ public class User {
         return email;
     }
 
-    public void setEmail() {
+    public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

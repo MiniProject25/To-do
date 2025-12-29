@@ -1,5 +1,9 @@
 package com.project.todo.user.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 /**
 
  Represents a user registration request.*
@@ -13,8 +17,13 @@ package com.project.todo.user.dto;
 // ) {}
 
 public class UserRequest {
+    @NotBlank(message = "Username is required")
     private final String username;
+    @Email(message = "Invalid Email")
+    @NotBlank(message = "Email is required")
     private final String email;
+    @NotBlank(message = "Password cannot be empty")
+    @Size(min = 4, max = 50)
     private final String password;
 
     public UserRequest(String username, String email, String password) {
@@ -34,4 +43,5 @@ public class UserRequest {
     public String getPassword() {
         return password;
     }
+
 }
