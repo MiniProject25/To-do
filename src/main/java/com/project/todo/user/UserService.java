@@ -41,13 +41,11 @@ public class UserService {
         }
 
         if (!bCryptPasswordEncoder.matches(userLogin.password(), foundUser.getPassword())) {
-            throw new RuntimeException("Incorrect password");
+            throw new RuntimeException("Incorrect email or password");
         }
 
         return jwtUtil.generateToken(foundUser.getUserId(), foundUser.getEmail());
     }
-
-    // logout
 
     // delete
 
@@ -55,6 +53,37 @@ public class UserService {
     public UserResponse getUserById(UUID id) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
         return UserResponse.from(user);
+    }
+
+    // update
+    public UserResponse updateUser(UUID id, UserRequest userRequest) {
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        // updating email
+        if (!userRequest.getEmail().isEmpty()) {
+            user.setEmail(userRequest.getEmail());
+        }
+
+        // updating pwd
+        if (!userRequest.getUsername().isEmpty()) {
+            user.setUsername(userRequest.getUsername());
+        }
+
+        // updating username
+        if (!userRequest.getPassword().isEmpty() && bCryptPasswordEncoder.matches(userRequest.getPassword(), user.getPassword())) {
+            user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
+        }
+
+        userRepository.save(user);
+
+        return UserResponse.from(user);
+    }
+
+    public UserResponse deleteUser(UUID id) {
+        UserResponse user = UserResponse.from(userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found")));
+        userRepository.deleteById(id);
+
+        return user;
     }
 
 }

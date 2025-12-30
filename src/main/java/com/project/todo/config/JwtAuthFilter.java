@@ -19,7 +19,7 @@ import java.util.UUID;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private  final UserService userService;
+    private final UserService userService;
 
     public JwtAuthFilter(JwtUtil jwtUtil, UserService userService) {
         this.jwtUtil = jwtUtil;

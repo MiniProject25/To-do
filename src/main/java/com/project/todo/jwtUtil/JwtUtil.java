@@ -19,7 +19,7 @@ public class JwtUtil {
     private String secret;
 
     @Value("${jwt.expiration}")
-    private int expiration;
+    private long expiration;
 
     // get key
     public Key getKey() {

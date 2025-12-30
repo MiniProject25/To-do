@@ -7,7 +7,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.jspecify.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -25,7 +24,7 @@ public class User {
     @NotBlank(message = "Email is required")
     private String email;
 
-    @Size(min = 4, max = 50)
+    @Size(min = 4, max = 100)
     private String password;
 
     protected User() {}
@@ -55,6 +54,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
