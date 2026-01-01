@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name = "todo_categories")
 public class TodoCategory {
 
+    // look into this later --- 1
     @Version
     private long version;
 
@@ -26,13 +27,13 @@ public class TodoCategory {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    // look into these parameters --- 2
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TodoItem> tasks;
 
     protected TodoCategory() {}
 
-    public TodoCategory(long id, User user, String category) {
-        this.id = id;
+    public TodoCategory(User user, String category) {
         this.user = user;
         this.category = category;
     }
@@ -47,6 +48,8 @@ public class TodoCategory {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+    // getters and setters
 
     public long getId() {
         return id;

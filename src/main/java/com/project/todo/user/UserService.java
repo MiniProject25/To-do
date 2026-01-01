@@ -55,6 +55,10 @@ public class UserService {
         return UserResponse.from(user);
     }
 
+    public User getUser(UUID id) {
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    }
+
     // update
     public UserResponse updateUser(UUID id, UserRequest userRequest) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));

@@ -1,4 +1,4 @@
 package com.project.todo.todos.dto;
 
-public class TodosRequest {
+public record TodoItemResponse() {
 }
