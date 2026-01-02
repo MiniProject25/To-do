@@ -67,6 +67,10 @@ public class TodoCategory {
         return tasks;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     // public helper functions
 
     public void addItem(TodoItem item) {
