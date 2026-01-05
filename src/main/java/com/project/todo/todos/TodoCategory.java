@@ -4,6 +4,7 @@ import com.project.todo.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,7 @@ public class TodoCategory {
     private LocalDateTime updatedAt;
 
     // look into these parameters --- 2
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category")
     private List<TodoItem> tasks;
 
     protected TodoCategory() {}
@@ -36,6 +37,7 @@ public class TodoCategory {
     public TodoCategory(User user, String category) {
         this.user = user;
         this.category = category;
+        this.tasks = new ArrayList<>();
     }
 
     @PrePersist
@@ -75,10 +77,12 @@ public class TodoCategory {
 
     public void addItem(TodoItem item) {
         tasks.add(item);
+        item.setCategory(this);
     }
 
     public void removeItem(TodoItem item) {
         tasks.remove(item);
+        item.setCategory(null);
     }
 
 }

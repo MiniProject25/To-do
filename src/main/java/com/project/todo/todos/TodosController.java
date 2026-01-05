@@ -1,9 +1,9 @@
 package com.project.todo.todos;
 
-import com.project.todo.todos.dto.TodoCatRequest;
-import com.project.todo.todos.dto.TodoCatResponse;
+import com.project.todo.todos.dto.*;
 import com.project.todo.user.dto.UserResponse;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +52,30 @@ public class TodosController {
             return todosService.deleteCat(id, user.getUserID());
         }
         return null;
+    }
+
+    @PostMapping("/item")
+    public TodoItemResponse addTodoItem(@RequestBody @Valid TodoItemRequest todoItemRequest, @RequestParam Long id) {
+        UserResponse userResponse = (UserResponse) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return todosService.addTodoItem(todoItemRequest, id, userResponse.getUserID());
+    }
+
+    @PutMapping("/item")
+    public TodoItemResponse updateTodoItem(@RequestBody @Valid TodoItemUpdate todoItemUpdate, @RequestParam long id, @RequestParam long catId) {
+        UserResponse userResponse = (UserResponse) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return todosService.updateTodoItem(id, catId, userResponse.getUserID(), todoItemUpdate);
+    }
+
+    @DeleteMapping("/item")
+    public TodoItemResponse deleteTodoItem(@RequestParam Long id, @RequestParam long catId) {
+        UserResponse userResponse = (UserResponse) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return todosService.deleteTodoItem(id, catId, userResponse.getUserID());
+    }
+
+    @GetMapping("/item")
+    public List<TodoItemResponse> getTodoItems(@RequestParam long id) {
+        UserResponse userResponse = (UserResponse) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return todosService.getTodoItems(userResponse.getUserID(), id);
     }
 
 }
