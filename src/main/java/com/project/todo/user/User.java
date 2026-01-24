@@ -1,9 +1,6 @@
 package com.project.todo.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -18,10 +15,12 @@ public class User {
     private UUID userId;
 
     @NotBlank(message = "Username is required")
+    @Column(unique = true)
     private String username;
 
     @Email(message = "Invalid Email")
     @NotBlank(message = "Email is required")
+    @Column(unique = true)
     private String email;
 
     @Size(min = 4, max = 100)

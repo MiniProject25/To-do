@@ -51,14 +51,14 @@ public class TodosService {
         existing.setCategory(todoCatRequest.category());
         todoCatRepository.save(existing);
 
-        return new TodoCatResponse(existing.getCategory(), userId.toString());
+        return new TodoCatResponse(existing.getCategory(), userId.toString(), existing.getId());
     }
 
     // delete category
     public TodoCatResponse deleteCat(long id, UUID userId) {
         TodoCategory existing = todoCatRepository.findByIdAndUser_UserId(id, userId);
         todoCatRepository.delete(existing);
-        return new TodoCatResponse(existing.getCategory(), userId.toString());
+        return new TodoCatResponse(existing.getCategory(), userId.toString(), existing.getId());
     }
 
     /* ---------------------------------- TODO CATEGORIES END ---------------------------------- */
@@ -134,7 +134,7 @@ public class TodosService {
             throw new RuntimeException("Category does not exist");
         }
 
-        return todoCategory.getTasks().stream().map(TodoItemResponse::new).toList();
+        return todoCategory.getTasks().stream().map((todo) -> new TodoItemResponse(todo, todoCategory)).toList();
     }
 
 
