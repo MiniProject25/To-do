@@ -73,6 +73,10 @@ public class TodoItem {
         this.category = category;
     }
 
+    public Boolean getCompleted() {
+        return completed;
+    }
+
     public void updateFrom(TodoItemUpdate todoItemUpdate) {
         if (todoItemUpdate.title() != null && !todoItemUpdate.title().equals(this.title)) {
             this.title = todoItemUpdate.title();
