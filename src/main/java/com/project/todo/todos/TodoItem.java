@@ -64,10 +64,10 @@ public class TodoItem {
     public List<String> steps() {
         return steps;
     }
-
     public TodoCategory getCategory() {
         return category;
     }
+
 
     public void setCategory(TodoCategory category) {
         this.category = category;

@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -39,6 +40,15 @@ public class TodosService {
 
     // get categories
     public List<TodoCatResponse> getTodoCat(UUID userId) {
+        TodoCategory myDay = todosRepository.findByCategoryAndUser_UserId("My Day", userId);
+
+        if (myDay == null) {
+            User user = userService.getUser(userId);
+
+            TodoCategory category = new TodoCategory(user, "My Day");
+            todosRepository.save(category);
+        }
+
         List<TodoCategory> categories = todosRepository.findByUser_UserId(userId);
         User user = userService.getUser(userId);
         return categories.stream().map(todoCategory -> new TodoCatResponse(todoCategory, user)).toList();
@@ -57,6 +67,14 @@ public class TodosService {
     // delete category
     public TodoCatResponse deleteCat(long id, UUID userId) {
         TodoCategory existing = todoCatRepository.findByIdAndUser_UserId(id, userId);
+        if (existing == null) {
+            throw new EntityNotFoundException("Category not found");
+        }
+
+        if ("My Day".equals(existing.getCategory())) {
+            throw new IllegalStateException("My Day category cannot be deleted");
+        }
+
         todoCatRepository.delete(existing);
         return new TodoCatResponse(existing.getCategory(), userId.toString(), existing.getId());
     }
@@ -91,9 +109,11 @@ public class TodosService {
                 .findFirst()
                 .orElseThrow(() -> new EntityNotFoundException("Item does not exist"));
 
+        TodoItem copy = item;
+
         todoCategory.removeItem(item);
 
-        return new TodoItemResponse(item);
+        return new TodoItemResponse(copy);
     }
 
     // update todo item

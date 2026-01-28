@@ -11,4 +11,6 @@ public interface TodoCatRepository extends JpaRepository<TodoCategory,Long> {
     TodoCategory findByIdAndUser_UserId(long id, UUID userId);
 
     UUID user(User user);
+
+    TodoCategory findByCategoryAndUser_UserId(String category, UUID userUserId);
 }

@@ -6,7 +6,7 @@ import com.project.todo.todos.TodoItem;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record TodoItemResponse(long id, String title, Boolean completed, List<String> steps, LocalDateTime dueDate, String category) {
+public record TodoItemResponse(long id, String title, Boolean completed, List<String> steps, LocalDateTime dueDate, Long category) {
     public TodoItemResponse(TodoItem todoItem, TodoCategory todoCategory) {
         this (
                 todoItem.getId(),
@@ -14,7 +14,7 @@ public record TodoItemResponse(long id, String title, Boolean completed, List<St
                 todoItem.getCompleted(),
                 todoItem.steps(),
                 todoItem.getDueDate(),
-                todoCategory.getCategory()
+                todoCategory.getId()
         );
     }
 
