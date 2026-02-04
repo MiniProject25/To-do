@@ -71,12 +71,20 @@ public class TodosService {
             throw new EntityNotFoundException("Category not found");
         }
 
+//        List<TodoItemResponse> todos = getTodoItems(userId, id);
+//
+//        if (todos != null) {
+//
+//        }
+
         if ("My Day".equals(existing.getCategory())) {
             throw new IllegalStateException("My Day category cannot be deleted");
         }
 
+        TodoCategory copy = existing;
+
         todoCatRepository.delete(existing);
-        return new TodoCatResponse(existing.getCategory(), userId.toString(), existing.getId());
+        return new TodoCatResponse(copy.getCategory(), userId.toString(), copy.getId());
     }
 
     /* ---------------------------------- TODO CATEGORIES END ---------------------------------- */
