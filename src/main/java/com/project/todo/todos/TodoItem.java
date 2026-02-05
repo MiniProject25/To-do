@@ -73,6 +73,10 @@ public class TodoItem {
         this.category = category;
     }
 
+    public void setCompleted(Boolean status) {
+        this.completed = status;
+    }
+
     public Boolean getCompleted() {
         return completed;
     }

@@ -154,6 +154,26 @@ public class TodosService {
         return new TodoItemResponse(todoItem);
     }
 
+    public TodoItemResponse setComplete(long id, long catId, UUID userId, Boolean status) {
+        TodoCategory todoCategory = todoCatRepository.findByIdAndUser_UserId(catId, userId);
+
+        if (todoCategory == null) {
+            throw new EntityNotFoundException("Category does not exist");
+        }
+
+        TodoItem todoItem = todoItemRepository.findByIdAndCategory(id, todoCategory);
+
+        if (todoItem == null) {
+            throw new EntityNotFoundException("Item does not exist");
+        }
+
+        todoItem.setCompleted(status);
+
+        todoItemRepository.save(todoItem);
+
+        return new TodoItemResponse(todoItem);
+    }
+
     // view all todo items
     public List<TodoItemResponse> getTodoItems(UUID userId, Long id) {
         TodoCategory todoCategory = todoCatRepository.findByIdAndUser_UserId(id, userId);

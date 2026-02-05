@@ -47,8 +47,6 @@ public class UserService {
         return jwtUtil.generateToken(foundUser.getUserId(), foundUser.getEmail());
     }
 
-    // delete
-
     // data
     public UserResponse getUserById(UUID id) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));

@@ -2,13 +2,11 @@ package com.project.todo.todos;
 
 import com.project.todo.todos.dto.*;
 import com.project.todo.user.dto.UserResponse;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/categories")
@@ -76,6 +74,12 @@ public class TodosController {
     public List<TodoItemResponse> getTodoItems(@RequestParam long id) {
         UserResponse userResponse = (UserResponse) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return todosService.getTodoItems(userResponse.getUserID(), id);
+    }
+
+    @PutMapping("/item/complete")
+    public TodoItemResponse completeTodoItem(@RequestParam Long id, @RequestParam long catId, @RequestParam Boolean status) {
+        UserResponse userResponse = (UserResponse) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return todosService.setComplete(id, catId, userResponse.getUserID(), status);
     }
 
 }
